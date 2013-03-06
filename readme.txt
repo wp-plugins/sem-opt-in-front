@@ -1,10 +1,12 @@
 === Opt-In Front Page ===
-Contributors: Denis-de-Bernardy
+Contributors: Denis-de-Bernardy, Mike_Koepke
 Donate link: http://www.semiologic.com/partners/
 Tags: asides, opt-in-front-page, opt-in front page, opt-in, semiologic
-Requires at least: 2.8
-Tested up to: 3.2.1
+Requires at least: 3.1
+Tested up to: 3.5.1
 Stable tag: trunk
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Lets you add posts to your front page on an opt-in basis.
 
@@ -35,11 +37,19 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 == Installation ==
 
 1. Upload the plugin folder to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
-1. Create a WordPress Category called 'Blog' or 'News'. You can safely rename it afterwards -- what really counts is a slug of 'blog' or 'news'.
+2. Activate the plugin through the 'Plugins' menu in WordPress
+3. Create a WordPress Category called 'Blog' or 'News'. You can safely rename it afterwards -- what really counts is a slug of 'blog' or 'news'.
 
 
 == Change Log ==
+
+= 4.1.3 =
+
+- Fix non static calling warning
+
+= 4.1.2 =
+
+- WP 3.5 compat
 
 = 4.1.1 =
 
