@@ -3,7 +3,7 @@
 Plugin Name: Opt-in Front Page
 Plugin URI: http://www.semiologic.com/software/opt-in-front/
 Description: Restricts the access to your front page on an opt-in basis: Only posts within the category with a slug of 'blog' or 'news' will be displayed on your front page.
-Version: 4.1.3
+Version: 4.2
 Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: sem-opt-in-front
@@ -27,7 +27,36 @@ http://www.opensource.org/licenses/gpl-2.0.php
  **/
 
 class sem_opt_in_front {
-	/**
+    /**
+     * sem_opt_in_front()
+     */
+    function sem_opt_in_front() {
+        add_action('init', array($this, 'init'));
+
+        foreach ( array(
+        	'create_category',
+        	'edit_category',
+        	'delete_category',
+        	'flush_cache',
+        	'after_db_upgrade',
+        	) as $hook )
+        	add_action($hook, array($this, 'flush_cache'));
+
+        add_action('pre_post_update', array($this, 'pre_flush_post'));
+
+        foreach ( array(
+        		'save_post',
+        		'delete_post',
+        		) as $hook )
+        	add_action($hook, array($this, 'flush_post'), 1); // before _save_post_hook()
+
+        register_activation_hook(__FILE__, array($this, 'activate'));
+        register_deactivation_hook(__FILE__, array($this, 'flush_cache'));
+
+        wp_cache_add_non_persistent_groups(array('widget_queries', 'pre_flush_post'));
+    }
+
+    /**
 	 * init()
 	 *
 	 * @return void
@@ -39,10 +68,10 @@ class sem_opt_in_front {
 		define('main_cat_id', $main_cat_id ? intval($main_cat_id) : false);
 		
 		if ( main_cat_id ) {
-			add_filter('category_link', array('sem_opt_in_front', 'category_link'), 10, 2);
+			add_filter('category_link', array($this, 'category_link'), 10, 2);
 
 			if ( !is_admin() ) {
-				add_filter('posts_join', array('sem_opt_in_front', 'posts_join'), 11);
+				add_filter('posts_join', array($this, 'posts_join'), 11);
 			}
 		}
 	} # init()
@@ -54,7 +83,7 @@ class sem_opt_in_front {
 	 * @return int $term_id
 	 **/
 
-	static function get_main_cat_id() {
+	function get_main_cat_id() {
 		$main_cat_id = get_transient('sem_opt_in_front');
 		
 		if ( $main_cat_id !== false )
@@ -281,27 +310,7 @@ class sem_opt_in_front {
 	} # activate()
 } # sem_opt_in_front
 
-add_action('init', array('sem_opt_in_front', 'init'));
 
-foreach ( array(
-	'create_category',
-	'edit_category',
-	'delete_category',
-	'flush_cache',
-	'after_db_upgrade',
-	) as $hook )
-	add_action($hook, array('sem_opt_in_front', 'flush_cache'));
+$sem_opt_in_front = new sem_opt_in_front();
 
-add_action('pre_post_update', array('sem_opt_in_front', 'pre_flush_post'));
-
-foreach ( array(
-		'save_post',
-		'delete_post',
-		) as $hook )
-	add_action($hook, array('sem_opt_in_front', 'flush_post'), 1); // before _save_post_hook()
-
-register_activation_hook(__FILE__, array('sem_opt_in_front', 'activate'));
-register_deactivation_hook(__FILE__, array('sem_opt_in_front', 'flush_cache'));
-
-wp_cache_add_non_persistent_groups(array('widget_queries', 'pre_flush_post'));
 ?>
