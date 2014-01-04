@@ -3,11 +3,12 @@
 Plugin Name: Opt-in Front Page
 Plugin URI: http://www.semiologic.com/software/opt-in-front/
 Description: Restricts the access to your front page on an opt-in basis: Only posts within the category with a slug of 'blog' or 'news' will be displayed on your front page.
-Version: 4.2
+Version: 4.2.1
 Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: sem-opt-in-front
 Domain Path: /lang
+License: Dual licensed under the MIT and GPLv2 licenses
 */
 
 /*
@@ -30,7 +31,7 @@ class sem_opt_in_front {
     /**
      * sem_opt_in_front()
      */
-    function sem_opt_in_front() {
+	public function __construct() {
         add_action('init', array($this, 'init'));
 
         foreach ( array(
@@ -310,7 +311,4 @@ class sem_opt_in_front {
 	} # activate()
 } # sem_opt_in_front
 
-
 $sem_opt_in_front = new sem_opt_in_front();
-
-?>
