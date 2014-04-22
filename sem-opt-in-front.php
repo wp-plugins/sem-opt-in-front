@@ -3,7 +3,7 @@
 Plugin Name: Opt-in Front Page
 Plugin URI: http://www.semiologic.com/software/opt-in-front/
 Description: Restricts the access to your front page on an opt-in basis: Only posts within the category with a slug of 'blog' or 'news' will be displayed on your front page.
-Version: 4.2.1
+Version: 4.3
 Author: Denis de Bernardy & Mike Koepke
 Author URI: http://www.getsemiologic.com
 Text Domain: sem-opt-in-front
@@ -20,7 +20,6 @@ This software is copyright Mesoconcepts  (http://www.mesoconcepts.com), and is d
 http://www.opensource.org/licenses/gpl-2.0.php
 **/
 
-
 /**
  * sem_opt_in_front
  *
@@ -28,42 +27,94 @@ http://www.opensource.org/licenses/gpl-2.0.php
  **/
 
 class sem_opt_in_front {
-    /**
-     * sem_opt_in_front()
-     */
+	/**
+	 * Plugin instance.
+	 *
+	 * @see get_instance()
+	 * @type object
+	 */
+	protected static $instance = NULL;
+
+	/**
+	 * URL to this plugin's directory.
+	 *
+	 * @type string
+	 */
+	public $plugin_url = '';
+
+	/**
+	 * Path to this plugin's directory.
+	 *
+	 * @type string
+	 */
+	public $plugin_path = '';
+
+	/**
+	 * Access this plugin’s working instance
+	 *
+	 * @wp-hook plugins_loaded
+	 * @return  object of this class
+	 */
+	public static function get_instance()
+	{
+		NULL === self::$instance and self::$instance = new self;
+
+		return self::$instance;
+	}
+
+
+	/**
+	 * Constructor.
+	 *
+	 *
+	 */
 	public function __construct() {
-        add_action('init', array($this, 'init'));
+		$this->plugin_url    = plugins_url( '/', __FILE__ );
+		$this->plugin_path   = plugin_dir_path( __FILE__ );
 
-        foreach ( array(
-        	'create_category',
-        	'edit_category',
-        	'delete_category',
-        	'flush_cache',
-        	'after_db_upgrade',
-        	) as $hook )
-        	add_action($hook, array($this, 'flush_cache'));
+		add_action( 'plugins_loaded', array ( $this, 'init' ) );
 
-        add_action('pre_post_update', array($this, 'pre_flush_post'));
-
-        foreach ( array(
-        		'save_post',
-        		'delete_post',
-        		) as $hook )
-        	add_action($hook, array($this, 'flush_post'), 1); // before _save_post_hook()
-
-        register_activation_hook(__FILE__, array($this, 'activate'));
-        register_deactivation_hook(__FILE__, array($this, 'flush_cache'));
-
-        wp_cache_add_non_persistent_groups(array('widget_queries', 'pre_flush_post'));
+		// more stuff: register actions and filters
+		add_action('init', array($this, 'cat_filter'));
     }
 
-    /**
+	/**
 	 * init()
 	 *
 	 * @return void
 	 **/
 
 	function init() {
+		foreach ( array(
+			'create_category',
+			'edit_category',
+			'delete_category',
+			'flush_cache',
+			'after_db_upgrade',
+			) as $hook )
+			add_action($hook, array($this, 'flush_cache'));
+
+		add_action('pre_post_update', array($this, 'pre_flush_post'));
+
+		foreach ( array(
+		    'save_post',
+		    'delete_post',
+		    ) as $hook )
+			add_action($hook, array($this, 'flush_post'), 1); // before _save_post_hook()
+
+		register_activation_hook(__FILE__, array($this, 'activate'));
+		register_deactivation_hook(__FILE__, array($this, 'flush_cache'));
+
+		wp_cache_add_non_persistent_groups(array('widget_queries', 'pre_flush_post'));
+	}
+
+    /**
+	 * cat_filter()
+	 *
+	 * @return void
+	 **/
+
+	function cat_filter() {
 		$main_cat_id = sem_opt_in_front::get_main_cat_id();
 		
 		define('main_cat_id', $main_cat_id ? intval($main_cat_id) : false);
@@ -75,7 +126,7 @@ class sem_opt_in_front {
 				add_filter('posts_join', array($this, 'posts_join'), 11);
 			}
 		}
-	} # init()
+	} # cat_filter()
 	
 	
 	/**
@@ -311,4 +362,4 @@ class sem_opt_in_front {
 	} # activate()
 } # sem_opt_in_front
 
-$sem_opt_in_front = new sem_opt_in_front();
+$sem_opt_in_front = sem_opt_in_front::get_instance();
