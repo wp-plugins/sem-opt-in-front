@@ -46,9 +46,14 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 == Change Log ==
 
+= 4.3.1 =
+
+- Clear internal cache upon WP upgrade
+
 = 4.3 =
 
 - Code refactoring
+- WP 3.9 compat
 
 = 4.2.1 =
 
