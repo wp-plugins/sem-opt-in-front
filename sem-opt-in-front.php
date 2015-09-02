@@ -2,10 +2,10 @@
 /*
 Plugin Name: Opt-in Front Page
 Plugin URI: http://www.semiologic.com/software/opt-in-front/
-Description: Restricts the access to your front page on an opt-in basis: Only posts within the category with a slug of 'blog' or 'news' will be displayed on your front page.
-Version: 4.4
+Description: RETIRED - Restricts the access to your front page on an opt-in basis: Only posts within the category with a slug of 'blog' or 'news' will be displayed on your front page.
+Version: 4.4.1
 Author: Denis de Bernardy & Mike Koepke
-Author URI: http://www.getsemiologic.com
+Author URI: https://www.semiologic.com
 Text Domain: sem-opt-in-front
 Domain Path: /lang
 License: Dual licensed under the MIT and GPLv2 licenses
@@ -19,6 +19,12 @@ This software is copyright Mesoconcepts  (http://www.mesoconcepts.com), and is d
 
 http://www.opensource.org/licenses/gpl-2.0.php
 **/
+
+/*
+ * This plugin has been retired.  No further development will occur on it.
+ * */
+
+
 
 /**
  * sem_opt_in_front

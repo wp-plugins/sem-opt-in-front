@@ -1,12 +1,14 @@
 === Opt-In Front Page ===
 Contributors: Denis-de-Bernardy, Mike_Koepke
-Donate link: http://www.semiologic.com/partners/
+Donate link: https://www.semiologic.com/donate/
 Tags: asides, opt-in-front-page, opt-in front page, opt-in, blog page, blog, semiologic
 Requires at least: 3.1
 Tested up to: 4.0
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
+
+> *This plugin has been retired.  No further development will occur on it.*
 
 Lets you add posts to your front page on an opt-in basis.
 
@@ -31,9 +33,7 @@ Please note that Opt-in front page automatically creates/fills in the needed mai
 
 = Help Me! =
 
-The [Semiologic forum](http://forum.semiologic.com) is the best place to report issues. Please note, however, that while community members and I do our best to answer all queries, we're assisting you on a voluntary basis.
-
-If you require more dedicated assistance, consider using [Semiologic Pro](http://www.getsemiologic.com).
+No further support is provided.
 
 
 == Installation ==
@@ -45,6 +45,10 @@ If you require more dedicated assistance, consider using [Semiologic Pro](http:/
 
 
 == Change Log ==
+
+= 4.4.1 =
+
+- Development has ceased on this plugin.  Updated source and readme accordingly
 
 = 4.4 =
 
